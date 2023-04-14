@@ -1,0 +1,12 @@
+env: dev
+
+api:
+  baseurl: {{REPLACE}}
+  suffix: {{REPLACE}}
+  tables: 
+    - table_a
+    - table_b
+  
+bigquery:
+  dest_dataset_id: {{REPLACE}}
+  key_file: {{REPLACE}}
