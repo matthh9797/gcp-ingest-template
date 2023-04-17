@@ -18,6 +18,20 @@ class Ingest:
         self.config = config
 
 
+    # Helper Methods
+    def get_endpoint_url(self, config_api: dict) -> str:
+        """
+        Get endpoint name from api configuration
+        @param config_api api configuration
+        """
+        if 'suffix' in config_api:
+            return config_api['baseurl']
+        elif 'baseurl' in config_api:
+            return f"{config_api['baseurl']}/{config_api['suffix']}/"
+        else:
+            return config_api['name']
+
+
     def download(self, endpoint: str) -> dict:
         """
         Retrieve data from api endpoint
@@ -45,18 +59,37 @@ class Ingest:
         return df_dict
     
 
-    def extract(self, endpoint: str, keys: list) -> dict:
+    def upload(self, df_dict: dict, gcp_connector: GcpConnector, dataset_id: str):
+        """
+        Upload dictionary of dataframes to bigquery tables
+        @param gcp_connector instance of GcpConnector class
+        @param dataset_id bigquery dataset
+        @param df_dict dictionary of dataframes to upload
+        """
+        job_config = bigquery.LoadJobConfig(
+            write_disposition="WRITE_TRUNCATE",
+        )
+
+        dataset_ref = gcp_connector.client.dataset(dataset_id)
+        for dataframe_name, dataframe in df_dict.items():
+            table_ref = dataset_ref.table(dataframe_name)
+            return gcp_connector.upload_dataframe_to_table(dataframe, table_ref, job_config)
+    
+
+    # Main Methods
+    def extract(self) -> dict:
         """
         Extract data from source system and structure as dictionary of dataframes with table name as key
-        @param endpoint API endpoint
-        @param keys list of keys to convert to dataframes
-        @return 
+        @return dictionary of dataframes
         """
-        json = self.download(endpoint)
-        if json == 404:
-            return json
+        config_api = self.config['api']
+
+        dict = self.download(self.get_endpoint_url(config_api))
+
+        if dict == 404:
+            return dict
         else:
-            return self.to_df_dict(json, keys)
+            return self.to_df_dict(dict, config_api['tables'])
 
 
     def transform(self, df_dict_raw: dict) -> dict:
@@ -69,23 +102,12 @@ class Ingest:
         return df_dict_transformed
 
 
-    def load(self, df_dict: dict, gcp_connector: GcpConnector, dataset_id: str) -> None:
+    def load(self, df_dict_transformed: dict, gcp_connector: GcpConnector) -> None:
         """
-        Upload dictionary of dataframes to bigquery tables
-        @param gcp_connector instance of GcpConnector class
-        @param dataset_id bigquery dataset
-        @param df_dict dictionary of dataframes to upload
-        @return json containing api output
+        Load dictionary of dataframes to bigquery using class configuration
         """
-
-        job_config = bigquery.LoadJobConfig(
-            write_disposition="WRITE_TRUNCATE",
-        )
-
-        dataset_ref = gcp_connector.client.dataset(dataset_id)
-        for dataframe_name, dataframe in df_dict.items():
-            table_ref = dataset_ref.table(dataframe_name)
-            return gcp_connector.upload_dataframe_to_table(dataframe, table_ref, job_config)
+        config_bq = self.config['bigquery']
+        return self.upload(df_dict_transformed, gcp_connector, config_bq['dest_dataset_id'])
 
 
     def run(self, env: str) -> None:
@@ -94,19 +116,14 @@ class Ingest:
         @param config ingestion process configuration dictionary
         @param env environment determines which authentication method is used for GCP
         """
-        config_bq = config['bigquery']
-        config_api = config['api']
-
-        if config_api['suffix'] == None:
-            endpoint = config_api['baseurl']
-        else:
-            endpoint = f"{config_api['baseurl']}/{config_api['suffix']}/"
+        config_api = self.config['api']
+        config_bq = self.config['bigquery']
 
         # ETL Process
 
         ## Step 1: Download data as dictionary and parse to dictionary of dataframes
-        print(f"Extracting data from endpoint: {endpoint}")
-        df_dict_raw = self.extract(endpoint = config_api['endpoint'], keys = config_api['tables'])
+        print(f"Extracting data from endpoint: {self.get_endpoint_url(config_api)}")
+        df_dict_raw = self.extract()
 
         ## Step 2: Transform dataframes if exists
         df_dict_transformed = self.transform(df_dict_raw)
@@ -121,5 +138,5 @@ class Ingest:
         else:
             return "Env must be dev or prod"
 
-        return self.load(df_dict_transformed, gcp_connector, config_bq['dest_dataset_id'])
+        return self.load(df_dict_transformed, gcp_connector)
 

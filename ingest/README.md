@@ -12,22 +12,23 @@ This repository provides a template process for batch data ingestion into GCP. T
 
 To get started, create a new repository using [this one](https://github.com/matthh9797/gcp-ingest-template) as a template. Then, create a conda environment for your project.
 
-```bash
+```cmd
 conda create --name <PROJECT_NAME> pip
-pip install ipykernel
+conda activate <PROJECT_NAME>
 ```
 
-Install base packages using one of the following options.
+Change directory into ingest using `cd ingest` and install base packages using one of the following options.
 
 ### Option 1 - Use requirements.txt
 
-```bash
+```cmd
 pip install -r requirements.txt
 ```
 
 ### Option 2 - Manual install
 
-```bash
+```cmd
+pip install ipykernel
 pip install --upgrade google-cloud-bigquery
 pip install pyarrow
 pip install Flask
@@ -47,7 +48,7 @@ Use `pip install XYZ` to install any additional packages required for your inges
 
 ## Add Child of Ingest Base Class
 
-Create an instance of the `Ingest` base class for your process overriding methods if necessary.
+Create an instance of the `Ingest` base class for your process overriding methods if necessary. Optionally, use development notebook.
 
 ```python
 # inside ingest/__init__.py
@@ -68,4 +69,4 @@ To run the `load` method in a development environment you will require an access
 
 First, update the `Dockerfile` to reflect your python version. Replace {{REPLACE}} with python version (e.g. `FROM python:3.11-slim`).
 
-Run the setup bash scripts in the `setup/` directory one by one to setup a service key, deploy to cloud run, call the cloud run service to test and setup a cron job. Find and replace {{REPLACE}} with relevant options for GCP. For more info check out: [https://github.com/GoogleCloudPlatform/data-science-on-gcp/tree/edition2/02_ingest](https://github.com/GoogleCloudPlatform/data-science-on-gcp/tree/edition2/02_ingest)
+Run the setup bash scripts in the `setup/` directory one by one to setup a service key, deploy to cloud run, call the cloud run service to test and setup a cron job. [**Note:** It is important that you run the deploy script from the ingest dir] Find and replace {{REPLACE}} with relevant options for GCP. For more info check out: [https://github.com/GoogleCloudPlatform/data-science-on-gcp/tree/edition2/02_ingest](https://github.com/GoogleCloudPlatform/data-science-on-gcp/tree/edition2/02_ingest)
