@@ -1,12 +1,15 @@
 env: dev
 
 api:
-  baseurl: {{REPLACE}}
-  suffix: {{REPLACE}}
+  name: yfinance
   tables: 
-    - table_a
-    - table_b
+    stock_history:
+      tickers:
+        - MSFT
+        - GOOGL
+        - AAPL
+      period: 5d
   
 bigquery:
-  dest_dataset_id: {{REPLACE}}
-  key_file: {{REPLACE}}
+  dest_dataset_id: yfinance_raw
+  key_file: data-science-on-gcp-323609-ec18149ed324.json
