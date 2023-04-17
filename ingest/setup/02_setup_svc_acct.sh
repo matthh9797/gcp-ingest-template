@@ -1,23 +1,23 @@
 #!/bin/bash
 
-SVC_ACCT={{REPLACE}}
+SVC_ACCT=svc-yfinance-ingest
 PROJECT_ID=$(gcloud config get-value project)
-REGION={{REPLACE}}
+BUCKET=${PROJECT_ID}-yfinance-staging
+REGION=europe-west2
 SVC_PRINCIPAL=serviceAccount:${SVC_ACCT}@${PROJECT_ID}.iam.gserviceaccount.com
 
 gsutil ls gs://$BUCKET || gsutil mb -l $REGION gs://$BUCKET
 gsutil uniformbucketlevelaccess set on gs://$BUCKET
 
-gcloud iam service-accounts create $SVC_ACCT --display-name "{{REPLACE}}"
+gcloud iam service-accounts create $SVC_ACCT --display-name "yfinance ingest daily"
 
-# {{REPLACE}} REMOVE FROM SCRIPT IF NOT USING BUCKET FOR load.py METHOD
 # make the service account the admin of the bucket
 # it can read/write/list/delete etc. on only this bucket
 gsutil iam ch ${SVC_PRINCIPAL}:roles/storage.admin gs://$BUCKET
 
 # ability to create/delete partitions etc in BigQuery table
 bq --project_id=${PROJECT_ID} query --nouse_legacy_sql \
-  "GRANT \`roles/bigquery.dataOwner\` ON SCHEMA {{REPLACE}} TO '$SVC_PRINCIPAL' "
+  "GRANT \`roles/bigquery.dataOwner\` ON SCHEMA yfinance_raw TO '$SVC_PRINCIPAL' "
 
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member ${SVC_PRINCIPAL} \

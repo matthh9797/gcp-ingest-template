@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # same as in setup_svc_acct
-NAME={{REPLACE}}
-SVC_ACCT={{REPLACE}}
+NAME=ingest-yfinance-daily
+SVC_ACCT=svc-yfinance-ingest
 PROJECT_ID=$(gcloud config get-value project)
-REGION={{REPLACE}}
+REGION=europe-west2
 SVC_EMAIL=${SVC_ACCT}@${PROJECT_ID}.iam.gserviceaccount.com
 
 #gcloud functions deploy $URL \

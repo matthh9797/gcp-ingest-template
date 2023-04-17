@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # same as deploy_cr.sh
-NAME={{REPLACE}}
+NAME=ingest-yfinance-daily
 
 PROJECT_ID=$(gcloud config get-value project)
 
-URL=$(gcloud run services describe {{REPLACE}} --format 'value(status.url)')
+URL=$(gcloud run services describe ingest-yfinance-daily --format 'value(status.url)')
 echo $URL
 
 # Feb 2015
