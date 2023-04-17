@@ -2,9 +2,9 @@
 
 # same as in setup_svc_acct
 NAME={{REPLACE}}
-SVC_ACCT={{REPLACE}}
+SVC_ACCT=svc-{{REPLACE}}-ingest # with source api name
 PROJECT_ID=$(gcloud config get-value project)
-REGION={{REPLACE}}
+REGION={{REPLACE}} # e.g. europe-west2
 SVC_EMAIL=${SVC_ACCT}@${PROJECT_ID}.iam.gserviceaccount.com
 
 #gcloud functions deploy $URL \

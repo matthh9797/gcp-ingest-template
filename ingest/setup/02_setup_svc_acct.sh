@@ -1,8 +1,9 @@
 #!/bin/bash
 
-SVC_ACCT={{REPLACE}}
+SVC_ACCT=svc-{{REPLACE}}-ingest # with source api name
 PROJECT_ID=$(gcloud config get-value project)
-REGION={{REPLACE}}
+BUCKET=${PROJECT_ID}-{{REPLACE}}-staging # with source api name
+REGION={{REPLACE}} # e.g. europe-west2
 SVC_PRINCIPAL=serviceAccount:${SVC_ACCT}@${PROJECT_ID}.iam.gserviceaccount.com
 
 gsutil ls gs://$BUCKET || gsutil mb -l $REGION gs://$BUCKET
