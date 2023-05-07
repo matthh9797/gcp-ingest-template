@@ -1,0 +1,53 @@
+[
+  {
+    "mode": "REQUIRED",
+    "name": "updated_at",
+    "type": "TIMESTAMP",
+    "description": "Last time row was updated"
+  },
+  {
+    "mode": "REQUIRED",
+    "name": "Date",
+    "type": "TIMESTAMP"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Open",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "High",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Low",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Close",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Volume",
+    "type": "INTEGER"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Dividends",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "NULLABLE",
+    "name": "Stock_Splits",
+    "type": "FLOAT"
+  },
+  {
+    "mode": "REQUIRED",
+    "name": "ticker",
+    "type": "STRING"
+  }
+]
