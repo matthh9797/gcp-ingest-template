@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # same as in setup_svc_acct.sh and call_cr.sh
-NAME={{REPLACE}}
+NAME=ingest-yfinance-daily
 PROJECT_ID=$(gcloud config get-value project)
-SVC_ACCT={{REPLACE}}
+SVC_ACCT=svc-yfinance-ingest
 SVC_EMAIL=${SVC_ACCT}@${PROJECT_ID}.iam.gserviceaccount.com
 
-SVC_URL=$(gcloud run services describe {{REPLACE}} --format 'value(status.url)')
+SVC_URL=$(gcloud run services describe ingest-yfinance-daily --format 'value(status.url)')
 echo $SVC_URL
 echo $SVC_EMAIL
 
@@ -14,9 +14,9 @@ echo $SVC_EMAIL
 echo {\"env\":\"prod\"\} > /tmp/message
 cat /tmp/message
 
-gcloud scheduler jobs create http {{REPLACE}} \
-       --description "{{REPLACE}}" \
-       --schedule="{{REPLACE}}" --time-zone "{{REPLACE}}" \
+gcloud scheduler jobs create http yfinancedaily \
+       --description "Ingest yfinance using cloud run" \
+       --schedule="52 02 * * *" --time-zone "Europe/London" \
        --uri=$SVC_URL --http-method POST \
        --oidc-service-account-email $SVC_EMAIL --oidc-token-audience=$SVC_URL \
        --max-backoff=7d \
