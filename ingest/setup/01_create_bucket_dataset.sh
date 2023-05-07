@@ -5,7 +5,7 @@ BUCKET=${PROJECT_ID}-{{REPLACE}}-staging # with source api name
 LOCATION={{REPLACE}} # e.g. EU
 
 # Create bucket
-gcloud storage buckets create gs://$BUCKET # Remove if already created bucket
+gcloud storage buckets create gs://$BUCKET --location=$LOCATION # Remove if already created bucket
 
 # set GCS bucket object TTL to delete blobs after 30 days (https://stackoverflow.com/questions/68071455/how-to-set-google-cloud-storage-bucket-gcs-file-object-expiration-ttl-using)
 echo '    
