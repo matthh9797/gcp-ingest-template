@@ -10,3 +10,17 @@ api:
 bigquery:
   dest_dataset_id: {{REPLACE}}
   key_file: {{REPLACE}}
+
+gcp:
+  key_file: {{REPLACE}}
+  upload:
+    dataset_id: {{REPLACE}}
+    bucketname: {{REPLACE}}
+    # @TODO Update code so this is different per table for multiple tables
+    schema_path: {{REPLACE}}
+    # (Optional)
+    # partition_col: Date
+    # partition_type: MONTH
+    # window: 3
+    # lag: 1
+    # add_updated_at: True

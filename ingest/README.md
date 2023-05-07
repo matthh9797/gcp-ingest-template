@@ -17,24 +17,10 @@ conda create --name <PROJECT_NAME> pip
 conda activate <PROJECT_NAME>
 ```
 
-Change directory into ingest using `cd ingest` and install base packages using one of the following options.
-
-### Option 1 - Use requirements.txt
+Change directory into ingest using `cd ingest` and install base packages.
 
 ```cmd
 pip install -r requirements.txt
-```
-
-### Option 2 - Manual install
-
-```cmd
-pip install ipykernel
-pip install --upgrade google-cloud-bigquery
-pip install pyarrow
-pip install Flask
-pip install pandas
-pip install pathlib
-pip install PyYAML
 ```
 
 ### Install additional packages, if required

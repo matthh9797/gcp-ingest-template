@@ -10,12 +10,12 @@ app = Flask(__name__)
 
 # Parameters
 @app.route("/", methods=['POST'])
-def ingest(env: str = 'prod'):
+def ingest(env: str = 'prod', overrides: dict = None):
 
     try:
         config = dict_from_yaml('config.yaml')
         ingest_a = ChildA(config)
-        ingest_a.run(env)
+        ingest_a.run(env, overrides)
         ok = 'Ingested successfully'
         logging.info(ok)
         return ok
@@ -26,8 +26,9 @@ def ingest(env: str = 'prod'):
 if __name__ == "__main__":
     import argparse    
 
-    parser = argparse.ArgumentParser(description='ingest fantasy football data from Fantasy Football API to Google Cloud Bigquery')
+    parser = argparse.ArgumentParser(description='ingest {{ REPLACE }} API to Google Cloud Bigquery')
     parser.add_argument('--env', default='prod', help='Environment')
+    parser.add_argument('--overrides', default='prod', help='Environment')
 
     args = parser.parse_args()
 
