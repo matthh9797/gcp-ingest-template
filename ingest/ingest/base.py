@@ -59,23 +59,6 @@ class Ingest:
         return df_dict
     
 
-    def upload(self, df_dict: dict, gcp_connector: GcpConnector, dataset_id: str):
-        """
-        Upload dictionary of dataframes to bigquery tables
-        @param gcp_connector instance of GcpConnector class
-        @param dataset_id bigquery dataset
-        @param df_dict dictionary of dataframes to upload
-        """
-        job_config = bigquery.LoadJobConfig(
-            write_disposition="WRITE_TRUNCATE",
-        )
-
-        dataset_ref = gcp_connector.client.dataset(dataset_id)
-        for dataframe_name, dataframe in df_dict.items():
-            table_ref = dataset_ref.table(dataframe_name)
-            return gcp_connector.upload_dataframe_to_table(dataframe, table_ref, job_config)
-    
-
     # Main Methods
     def extract(self) -> dict:
         """
@@ -104,20 +87,43 @@ class Ingest:
 
     def load(self, df_dict_transformed: dict, gcp_connector: GcpConnector) -> None:
         """
-        Load dictionary of dataframes to bigquery using class configuration
+        Load dictionary of dataframes to bigquery using upload configuration
+        @param df_dict_transformed dictionary of dataframes from transform step
+        @param gcp_connector instance of GcpConnector
         """
-        config_bq = self.config['bigquery']
-        return self.upload(df_dict_transformed, gcp_connector, config_bq['dest_dataset_id'])
+        config_gcp = self.config['gcp']
 
+        upload_kwargs = config_gcp['upload']
 
-    def run(self, env: str) -> None:
+        # Allow indidual tables to overwrite global upload config
+        # if 'tables' in upload_kwargs:
+        #     upload_kwargs.pop('tables')
+        #     for dataframe_name, dataframe in df_dict_transformed.items():
+        #             if dataframe_name in config_gcp['tables']:
+        #                 for kwarg in config_gcp['tables'][dataframe_name]:
+        #                     upload_kwargs[kwarg] = config_gcp['tables'][dataframe_name][kwarg]
+        #         gcp_connector.upload(dataframe = dataframe, table_id = dataframe_name, **upload_kwargs)
+                                    
+        # else:
+        for dataframe_name, dataframe in df_dict_transformed.items():
+            gcp_connector.upload(dataframe = dataframe, table_id = dataframe_name, **upload_kwargs)
+
+ 
+
+    def run(self, env: str, overrides: dict = None) -> None:
         """
         Ingestion process runner method to download, parse and upload api data into bigquery
-        @param config ingestion process configuration dictionary
         @param env environment determines which authentication method is used for GCP
+        @param overrides overrides for default config, dict with same structure as config
         """
+        if overrides is not None:
+            from utils.helpers import update
+
+            print("Overriding default config")
+            update(self.config, overrides)
+
         config_api = self.config['api']
-        config_bq = self.config['bigquery']
+        config_gcp = self.config['gcp']
 
         # ETL Process
 
@@ -132,7 +138,7 @@ class Ingest:
 
         ### bq config only required for local development
         if env == 'dev':
-            gcp_connector = GcpConnector(config_bq)
+            gcp_connector = GcpConnector(config_gcp)
         elif env == 'prod':
             gcp_connector = GcpConnector()
         else:
