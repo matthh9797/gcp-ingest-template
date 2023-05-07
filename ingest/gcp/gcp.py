@@ -111,7 +111,7 @@ class GcpConnector:
             job_config.skip_leading_rows=1
 
         # No accepted way to do this without adding to payload at time of writing: https://issuetracker.google.com/issues/72080883?pli=1
-        uploaded_at = datetime.now()
+        uploaded_at = datetime.utcnow()
 
         if add_updated_at:
             dataframe.insert(0, 'updated_at', uploaded_at)
