@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='ingest stock data from yfinance API to Google Cloud Bigquery')
     parser.add_argument('--env', default='prod', help='Environment')
-    parser.add_argument('--overrides', default='prod', help='Environment')
+    parser.add_argument('--overrides', help='Environment')
 
     args = parser.parse_args()
 
