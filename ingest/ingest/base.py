@@ -25,9 +25,9 @@ class Ingest:
         @param config_api api configuration
         """
         if 'suffix' in config_api:
-            return config_api['baseurl']
-        elif 'baseurl' in config_api:
             return f"{config_api['baseurl']}/{config_api['suffix']}/"
+        elif 'baseurl' in config_api:
+            return config_api['baseurl'] 
         else:
             return config_api['name']
 
