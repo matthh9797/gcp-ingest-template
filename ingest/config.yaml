@@ -8,8 +8,16 @@ api:
         - MSFT
         - GOOGL
         - AAPL
-      period: 5d
+      period: 6mo
   
-bigquery:
-  dest_dataset_id: yfinance_raw
+gcp:
   key_file: data-science-on-gcp-323609-ec18149ed324.json
+  upload:
+    dataset_id: yfinance_raw
+    bucketname: data-science-on-gcp-323609-yfinance-staging
+    schema_path: schemas/stock_history.json
+    partition_col: Date
+    partition_type: MONTH
+    window: 3
+    lag: 1
+    add_updated_at: True
