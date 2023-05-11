@@ -27,8 +27,8 @@ if __name__ == "__main__":
     import argparse    
 
     parser = argparse.ArgumentParser(description='ingest {{ REPLACE }} API to Google Cloud Bigquery')
-    parser.add_argument('--env', default='prod', help='Environment')
-    parser.add_argument('--overrides', default='prod', help='Environment')
+    parser.add_argument('--env', default='prod', help='Environment for GCP connection')
+    parser.add_argument('--overrides', help='Overrides default configuration')
 
     args = parser.parse_args()
 

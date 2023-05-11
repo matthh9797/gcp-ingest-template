@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # same as deploy_cr.sh
-NAME={{REPLACE}}
+NAME={{REPLACE}} # e.g. ingest-yfinance-daily
 
 PROJECT_ID=$(gcloud config get-value project)
 

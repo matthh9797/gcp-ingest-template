@@ -56,3 +56,5 @@ To run the `load` method in a development environment you will require an access
 First, update the `Dockerfile` to reflect your python version. Replace {{REPLACE}} with python version (e.g. `FROM python:3.11-slim`).
 
 Run the setup bash scripts in the `setup/` directory one by one to setup a service key, deploy to cloud run, call the cloud run service to test and setup a cron job. [**Note:** It is important that you run the deploy script from the ingest dir] Find and replace {{REPLACE}} with relevant options for GCP. For more info check out: [https://github.com/GoogleCloudPlatform/data-science-on-gcp/tree/edition2/02_ingest](https://github.com/GoogleCloudPlatform/data-science-on-gcp/tree/edition2/02_ingest)
+
+Once, deployed you can easily setup continuous deployment with the UI: [cloud.google.com/run/docs/continuous-deployment-with-cloud-build](https://cloud.google.com/run/docs/continuous-deployment-with-cloud-build).

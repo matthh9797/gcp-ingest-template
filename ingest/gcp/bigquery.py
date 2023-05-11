@@ -1,7 +1,7 @@
 from google.cloud import bigquery
 from datetime import datetime
 
-
+# Lookup Functions
 def get_partition_type_from_str(partition_type: str) -> bigquery.TimePartitioningType:
     """
     get bigquery partition type object from partition keyword
@@ -57,19 +57,27 @@ def get_partition_range(dt: datetime, paritition_type):
         print('paritition_type must be YEAR, MONTH or DAY')
 
 
+def get_source_format(file_type):
+    """
+    get bigquery source format from file type
+    @param file_type (e.g. csv or json)
+    """
+    lookup = {
+        'csv': 'CSV',
+        'json': bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
+    }
+    return lookup[file_type]
+
+
+# Helpers
 def table_schema_to_json(   bq_client: bigquery.Client,
                             table_ref: bigquery.table.TableReference,
                             file: str
-                            # add_updated_at: bool = False
                             ) -> None:
     """Get schema of bigquery table using table ref"""
     table = bq_client.get_table(table_ref)
 
     table = bq_client.get_table(table_ref)
     schema = table.schema
-
-    # if add_updated_at:
-    #     updated_at = bigquery.SchemaField("updated_at", "TIMESTAMP", mode="REQUIRED", default_value_expression='CURRENT_TIMESTAMP()', description="Last time row was updated")
-    #     schema.append(updated_at)
 
     return bq_client.schema_to_json(schema, file)

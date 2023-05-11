@@ -5,7 +5,7 @@ from pathlib import Path
 from datetime import datetime, timedelta
 
 from .migrate import upload_dataframe_to_table, upload_bucket_to_table, upload_dataframe_to_bucket
-from .bigquery import get_partition_type_from_str, get_partition_range, get_partition_format_from_str, table_schema_to_json
+from .bigquery import get_partition_type_from_str, get_partition_range, get_partition_format_from_str, get_source_format, table_schema_to_json
 
 
 class GcpConnector:
@@ -55,7 +55,8 @@ class GcpConnector:
                lag: int = 0, # Number of days,
                add_updated_at: bool = False,
                autodetect_mode = False,
-               keep_autodetect_table = False
+               keep_autodetect_table = False,
+               file_type: str = 'csv'
                ) -> None:
         """
         Upload dataframe to bigquery table. Run options include use of bucket and partitions.
@@ -70,6 +71,7 @@ class GcpConnector:
         @param lag how many days to lag run date
         @param autodetect_mode If true, run the upload function with 100 rows of data to autodetect table schema
         @param keep_autodetect_table Do not automatically drop the table used for autodetecting table schema
+        @param file_type specify file type for storage bucket (e.g. csv or json)
         """
 
         bq_client = self.bq_client
@@ -102,13 +104,10 @@ class GcpConnector:
         if schema_path is None or autodetect_mode:
             job_config.autodetect=True
         else:
-            schema = bq_client.schema_from_json(schema_path)
-            # if add_updated_at:
-            #     updated_at = bigquery.SchemaField("updated_at", "TIMESTAMP", mode="REQUIRED", description="Last time row was updated")
-            #     schema.insert(0, updated_at)  
-            #     job_config.allow_jagged_rows = True        
+            schema = bq_client.schema_from_json(schema_path)    
             job_config.schema = schema
-            job_config.skip_leading_rows=1
+            if file_type == 'csv':
+                job_config.skip_leading_rows=1
 
         # No accepted way to do this without adding to payload at time of writing: https://issuetracker.google.com/issues/72080883?pli=1
         uploaded_at = datetime.now()
@@ -127,18 +126,12 @@ class GcpConnector:
             else:
                 blobname = f'{uploaded_at.strftime("%Y%m%d")}:{table_id}'
             print(f'Uploading dataframe to bucket: gs://{bucketname}')
-            gcslocation = upload_dataframe_to_bucket(storage_client, dataframe, bucketname, blobname)
+            gcslocation = upload_dataframe_to_bucket(storage_client, dataframe, bucketname, blobname, file_type)
             print(f'Uploading gcsfile from {gcslocation} to bigquery table: {dataset_id}:{table_id}')
-            # try:
-            #     bq_client.get_table(table_ref)  # Make an API request.
-            #     print("Table {} already exists. Dropping table.".format(table_id))
-            #     bq_client.delete_table(table_ref)
-            # except NotFound:
-            #     print("Table {} is not found. Using header row".format(table_id))
-            # print(f'Creating empty table with schema file at: {schema_path}')
-            # table = bigquery.Table(table_ref, schema=job_config.schema)
-            # table = bq_client.create_table(table)  
-            job_config.source_format = 'CSV'
+            try:
+                job_config.source_format = get_source_format(file_type) 
+            except KeyError:
+                return print(f'No upload method for file type {file_type}')     
             print(f'Uploading data from {gcslocation} to table {table_id}')
             upload_bucket_to_table(bq_client, gcslocation, table_ref, job_config)
         
@@ -158,11 +151,15 @@ class GcpConnector:
                     gcslocation = upload_dataframe_to_bucket(storage_client, 
                                                             dataframe.loc[dataframe[partition_col].between(start_date, end_date)], 
                                                             bucketname, 
-                                                            blobname)
+                                                            blobname,
+                                                            file_type)
                     table_ref = dataset_ref.table(f'{table_id}${partition_id}')
                     print(f'Uploading gcsfile from {gcslocation} to bigquery table: {dataset_id}:{table_id}${partition_id}')
                     job_config.skip_leading_rows=1
-                    job_config.source_format = 'CSV'
+                    try:
+                        job_config.source_format = get_source_format(file_type) 
+                    except KeyError:
+                        return print(f'No upload method for file type {file_type}') 
                     print(f'Uploading data from {gcslocation} to table {table_id}')
                     upload_bucket_to_table(bq_client, gcslocation, table_ref, job_config)
             except NotFound:

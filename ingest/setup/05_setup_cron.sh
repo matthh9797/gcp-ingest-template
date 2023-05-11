@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # same as in setup_svc_acct.sh and call_cr.sh
-NAME={{REPLACE}}
+NAME={{REPLACE}} # (e.g. ingest-yfinance-daily)
 PROJECT_ID=$(gcloud config get-value project)
-SVC_ACCT={{REPLACE}}
+SVC_ACCT={{REPLACE}} # (e.g. svc-yfinance-ingest)
 SVC_EMAIL=${SVC_ACCT}@${PROJECT_ID}.iam.gserviceaccount.com
 
 SVC_URL=$(gcloud run services describe {{REPLACE}} --format 'value(status.url)')
