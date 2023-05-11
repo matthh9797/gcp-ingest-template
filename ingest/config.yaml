@@ -2,21 +2,24 @@ env: dev
 
 api:
   baseurl: {{REPLACE}}
-  suffix: {{REPLACE}}
-  tables: 
-    - table_a
-    - table_b
+  endpoints:
+    - name: {{REPLACE}} # Suffix to add to baseurl
+      tables: # If endpoint returns several tables
+        - table_a
+        - table_b
+    - name: {{REPLACE}} # If endpoint returns one table
+
 
 gcp:
   key_file: {{REPLACE}}
   upload:
     dataset_id: {{REPLACE}}
     bucketname: {{REPLACE}}
-    # @TODO Update code so this is different per table for multiple tables
-    schema_path: {{REPLACE}}
-    # (Optional)
-    # partition_col: Date
-    # partition_type: MONTH
-    # window: 3
-    # lag: 1
-    # add_updated_at: True
+    tables: 
+      table_a: # Optionally, add table specific config
+        # (Optional)
+        # partition_col: Date
+        # partition_type: MONTH
+        # window: 3
+        # lag: 1
+        # add_updated_at: True
