@@ -1,6 +1,7 @@
 import pandas as pd
 from google.cloud import bigquery
 import requests
+from pathlib import Path
 
 from gcp import GcpConnector
 
@@ -19,19 +20,6 @@ class Ingest:
 
 
     # Helper Methods
-    def get_endpoint_url(self, config_api: dict) -> str:
-        """
-        Get endpoint name from api configuration
-        @param config_api api configuration
-        """
-        if 'suffix' in config_api:
-            return f"{config_api['baseurl']}/{config_api['suffix']}/"
-        elif 'baseurl' in config_api:
-            return config_api['baseurl'] 
-        else:
-            return config_api['name']
-
-
     def download(self, endpoint: str) -> dict:
         """
         Retrieve data from api endpoint
@@ -67,12 +55,26 @@ class Ingest:
         """
         config_api = self.config['api']
 
-        dict = self.download(self.get_endpoint_url(config_api))
-
-        if dict == 404:
-            return dict
+        dict = {}
+        keys = [] # create list of table names
+        if 'endpoints' in config_api:
+            for endpoint in config_api['endpoints']:
+                url = f"{config_api['baseurl']}/{endpoint['name']}/"
+                print(f'Downloading data from endpoint: {url}')
+                data = self.download(url)
+                if 'tables' in endpoint:
+                    keys.extend(endpoint['tables'])
+                    dict.update(data)
+                else:
+                    keys.append(endpoint['name'])
+                    dict[endpoint['name']] = data
         else:
-            return self.to_df_dict(dict, config_api['tables'])
+            keys.extend(endpoint['tables']) # if no endpoint, assumes api returns json of dataframe objects with keys as names
+            print(f'Downloading data from endpoint: {config_api["base_url"]}')
+            data = self.download(config_api['base_url'])
+            dict.update(data)
+
+        return self.to_df_dict(dict, keys)
 
 
     def transform(self, df_dict_raw: dict) -> dict:
@@ -95,20 +97,33 @@ class Ingest:
 
         upload_kwargs = config_gcp['upload']
 
-        # Allow indidual tables to overwrite global upload config
-        # if 'tables' in upload_kwargs:
-        #     upload_kwargs.pop('tables')
-        #     for dataframe_name, dataframe in df_dict_transformed.items():
-        #             if dataframe_name in config_gcp['tables']:
-        #                 for kwarg in config_gcp['tables'][dataframe_name]:
-        #                     upload_kwargs[kwarg] = config_gcp['tables'][dataframe_name][kwarg]
-        #         gcp_connector.upload(dataframe = dataframe, table_id = dataframe_name, **upload_kwargs)
-                                    
-        # else:
-        for dataframe_name, dataframe in df_dict_transformed.items():
-            gcp_connector.upload(dataframe = dataframe, table_id = dataframe_name, **upload_kwargs)
+        def __check_schema_file_exists(dataframe_name: str):
+            """Check schema path exists, if true return schema path, if false return None"""
+            schema_path = f'schemas/{dataframe_name}.json'
+            path_exists = Path(schema_path).exists()
+            if path_exists:
+                print(f'Uploading table: {dataframe_name}, with schema found at: {schema_path}')
+            else:
+                print(f'Uploading table: {dataframe_name}, without schema. No schema found at: {schema_path}')
+                schema_path = None
+            return schema_path
 
- 
+        # Allow indidual tables to overwrite global upload config
+        if 'tables' in upload_kwargs:
+            for dataframe_name, dataframe in df_dict_transformed.items():
+                table_kwargs = upload_kwargs.copy()
+                table_kwargs.pop('tables')
+                if dataframe_name in upload_kwargs['tables']:
+                    for kwarg in upload_kwargs['tables'][dataframe_name]:
+                        table_kwargs[kwarg] = upload_kwargs['tables'][dataframe_name][kwarg]
+                schema_path = __check_schema_file_exists(dataframe_name)
+                gcp_connector.upload(dataframe = dataframe, table_id = dataframe_name, schema_path = schema_path, **table_kwargs)
+                                    
+        else:
+            for dataframe_name, dataframe in df_dict_transformed.items():
+                schema_path = __check_schema_file_exists(dataframe_name)
+                gcp_connector.upload(dataframe = dataframe, table_id = dataframe_name, schema_path = schema_path, **upload_kwargs)
+
 
     def run(self, env: str, overrides: dict = None) -> None:
         """
@@ -128,7 +143,7 @@ class Ingest:
         # ETL Process
 
         ## Step 1: Download data as dictionary and parse to dictionary of dataframes
-        print(f"Extracting data from endpoint: {self.get_endpoint_url(config_api)}")
+        print(f"Extracting data from api: {config_api['baseurl']}")
         df_dict_raw = self.extract()
 
         ## Step 2: Transform dataframes if exists
