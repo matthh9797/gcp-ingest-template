@@ -3,7 +3,7 @@ import os
 import logging
 
 from utils import dict_from_yaml
-from ingest import ChildA
+from ingest import IngestFpl
 
 
 app = Flask(__name__)
@@ -14,8 +14,8 @@ def ingest(env: str = 'prod', overrides: dict = None):
 
     try:
         config = dict_from_yaml('config.yaml')
-        ingest_a = ChildA(config)
-        ingest_a.run(env, overrides)
+        ingest_fpl = IngestFpl(config)
+        ingest_fpl.run(env, overrides)
         ok = 'Ingested successfully'
         logging.info(ok)
         return ok
@@ -26,7 +26,7 @@ def ingest(env: str = 'prod', overrides: dict = None):
 if __name__ == "__main__":
     import argparse    
 
-    parser = argparse.ArgumentParser(description='ingest {{ REPLACE }} API to Google Cloud Bigquery')
+    parser = argparse.ArgumentParser(description='ingest fantasy.premierleague API to Google Cloud Bigquery')
     parser.add_argument('--env', default='prod', help='Environment for GCP connection')
     parser.add_argument('--overrides', help='Overrides default configuration')
 
