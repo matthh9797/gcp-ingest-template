@@ -1,15 +1,15 @@
 #!/bin/bash
 
-SVC_ACCT=svc-{{REPLACE}}-ingest # with source api name
+SVC_ACCT=svc-fpl-ingest # with source api name
 PROJECT_ID=$(gcloud config get-value project)
-BUCKET=${PROJECT_ID}-{{REPLACE}}-staging # with source api name
-REGION={{REPLACE}} # e.g. europe-west2
+BUCKET=fpl-staging # with source api name
+REGION=europe-west2 # e.g. europe-west2
 SVC_PRINCIPAL=serviceAccount:${SVC_ACCT}@${PROJECT_ID}.iam.gserviceaccount.com
 
 gsutil ls gs://$BUCKET || gsutil mb -l $REGION gs://$BUCKET
 gsutil uniformbucketlevelaccess set on gs://$BUCKET
 
-gcloud iam service-accounts create $SVC_ACCT --display-name "{{REPLACE}}"
+gcloud iam service-accounts create $SVC_ACCT --display-name "Fantasy Premier League ingest daily"
 
 # {{REPLACE}} REMOVE FROM SCRIPT IF NOT USING BUCKET FOR load.py METHOD
 # make the service account the admin of the bucket
@@ -18,7 +18,7 @@ gsutil iam ch ${SVC_PRINCIPAL}:roles/storage.admin gs://$BUCKET
 
 # ability to create/delete partitions etc in BigQuery table
 bq --project_id=${PROJECT_ID} query --nouse_legacy_sql \
-  "GRANT \`roles/bigquery.dataOwner\` ON SCHEMA {{REPLACE}} TO '$SVC_PRINCIPAL' "
+  "GRANT \`roles/bigquery.dataOwner\` ON SCHEMA fpl_raw TO '$SVC_PRINCIPAL' "
 
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member ${SVC_PRINCIPAL} \

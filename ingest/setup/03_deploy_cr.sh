@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # same as in setup_svc_acct
-NAME={{REPLACE}} # e.g. ingest-yahoo-daily
-SVC_ACCT=svc-{{REPLACE}}-ingest # with source api name (e.g. svc-fpl-ingest)
+NAME=ingest-fpl-daily # e.g. ingest-yahoo-daily
+SVC_ACCT=svc-fpl-ingest # with source api name (e.g. svc-fpl-ingest)
 PROJECT_ID=$(gcloud config get-value project)
-REGION={{REPLACE}} # e.g. europe-west2
+REGION=europe-west2 # e.g. europe-west2
 SVC_EMAIL=${SVC_ACCT}@${PROJECT_ID}.iam.gserviceaccount.com
 
 #gcloud functions deploy $URL \
