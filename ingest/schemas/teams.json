@@ -1,0 +1,107 @@
+[
+    {
+      "mode": "NULLABLE",
+      "name": "code",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "draw",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "form",
+      "type": "STRING"
+    },
+    {
+      "mode": "REQUIRED",
+      "name": "id",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "loss",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "name",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "played",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "points",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "position",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "short_name",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "strength",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "team_division",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "unavailable",
+      "type": "BOOLEAN"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "win",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "strength_overall_home",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "strength_overall_away",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "strength_attack_home",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "strength_attack_away",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "strength_defence_home",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "strength_defence_away",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "pulse_id",
+      "type": "STRING"
+    }
+  ]

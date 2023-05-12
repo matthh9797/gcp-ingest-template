@@ -1,0 +1,128 @@
+[
+    {
+      "mode": "NULLABLE",
+      "name": "team_h_score",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "team_h",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "pulse_id",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "team_a_score",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "minutes",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "provisional_start_time",
+      "type": "BOOLEAN"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "team_h_difficulty",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "kickoff_time",
+      "type": "TIMESTAMP"
+    },
+    {
+      "mode": "REQUIRED",
+      "name": "id",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "started",
+      "type": "BOOLEAN"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "code",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "finished",
+      "type": "BOOLEAN"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "finished_provisional",
+      "type": "BOOLEAN"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "team_a_difficulty",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "team_a",
+      "type": "INTEGER"
+    },
+    {
+      "fields": [
+        {
+          "fields": [
+            {
+              "mode": "NULLABLE",
+              "name": "element",
+              "type": "INTEGER"
+            },
+            {
+              "mode": "NULLABLE",
+              "name": "value",
+              "type": "INTEGER"
+            }
+          ],
+          "mode": "REPEATED",
+          "name": "h",
+          "type": "RECORD"
+        },
+        {
+          "fields": [
+            {
+              "mode": "NULLABLE",
+              "name": "element",
+              "type": "INTEGER"
+            },
+            {
+              "mode": "NULLABLE",
+              "name": "value",
+              "type": "INTEGER"
+            }
+          ],
+          "mode": "REPEATED",
+          "name": "a",
+          "type": "RECORD"
+        },
+        {
+          "mode": "NULLABLE",
+          "name": "identifier",
+          "type": "STRING"
+        }
+      ],
+      "mode": "REPEATED",
+      "name": "stats",
+      "type": "RECORD"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "event",
+      "type": "STRING"
+    }
+  ]

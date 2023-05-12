@@ -1,0 +1,57 @@
+[
+    {
+      "mode": "REQUIRED",
+      "name": "id",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "plural_name",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "plural_name_short",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "singular_name",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "singular_name_short",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "squad_select",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "squad_min_play",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "squad_max_play",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "ui_shirt_specific",
+      "type": "BOOLEAN"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "sub_positions_locked",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "element_count",
+      "type": "INTEGER"
+    }
+  ]

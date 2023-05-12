@@ -1,0 +1,442 @@
+[
+    {
+      "mode": "NULLABLE",
+      "name": "chance_of_playing_next_round",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "chance_of_playing_this_round",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "code",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "cost_change_event",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "cost_change_event_fall",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "cost_change_start",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "cost_change_start_fall",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "dreamteam_count",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "element_type",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "ep_next",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "ep_this",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "event_points",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "first_name",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "form",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "REQUIRED",
+      "name": "id",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "in_dreamteam",
+      "type": "BOOLEAN"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "news",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "news_added",
+      "type": "TIMESTAMP"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "now_cost",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "photo",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "points_per_game",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "second_name",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "selected_by_percent",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "special",
+      "type": "BOOLEAN"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "squad_number",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "status",
+      "type": "STRING"
+    },
+    {
+      "mode": "REQUIRED",
+      "name": "team",
+      "type": "STRING"
+    },
+    {
+      "mode": "REQUIRED",
+      "name": "team_code",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "total_points",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "transfers_in",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "transfers_in_event",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "transfers_out",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "transfers_out_event",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "value_form",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "value_season",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "web_name",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "minutes",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "goals_scored",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "assists",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "clean_sheets",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "goals_conceded",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "own_goals",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "penalties_saved",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "penalties_missed",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "yellow_cards",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "red_cards",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "saves",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "bonus",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "bps",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "influence",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "creativity",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "threat",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "ict_index",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "starts",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "expected_goals",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "expected_assists",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "expected_goal_involvements",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "expected_goals_conceded",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "influence_rank",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "influence_rank_type",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "creativity_rank",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "creativity_rank_type",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "threat_rank",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "threat_rank_type",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "ict_index_rank",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "ict_index_rank_type",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "corners_and_indirect_freekicks_order",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "corners_and_indirect_freekicks_text",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "direct_freekicks_order",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "direct_freekicks_text",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "penalties_order",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "penalties_text",
+      "type": "STRING"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "expected_goals_per_90",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "saves_per_90",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "expected_assists_per_90",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "expected_goal_involvements_per_90",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "expected_goals_conceded_per_90",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "goals_conceded_per_90",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "now_cost_rank",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "now_cost_rank_type",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "form_rank",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "form_rank_type",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "points_per_game_rank",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "points_per_game_rank_type",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "selected_rank",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "selected_rank_type",
+      "type": "INTEGER"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "starts_per_90",
+      "type": "FLOAT"
+    },
+    {
+      "mode": "NULLABLE",
+      "name": "clean_sheets_per_90",
+      "type": "FLOAT"
+    }
+  ]
