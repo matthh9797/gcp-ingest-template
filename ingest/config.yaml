@@ -1,25 +1,19 @@
 env: dev
 
 api:
-  baseurl: {{REPLACE}}
+  baseurl: https://fantasy.premierleague.com/api
   endpoints:
-    - name: {{REPLACE}} # Suffix to add to baseurl
-      tables: # If endpoint returns several tables
-        - table_a
-        - table_b
-    - name: {{REPLACE}} # If endpoint returns one table
-
-
+    - name: bootstrap-static
+      tables: 
+        - elements
+    - name: fixtures
+  
 gcp:
-  key_file: {{REPLACE}}
+  key_file: data-science-on-gcp-323609-78642d80c4ac.json
   upload:
-    dataset_id: {{REPLACE}}
-    bucketname: {{REPLACE}}
-    tables: 
-      table_a: # Optionally, add table specific config
-        # (Optional)
-        # partition_col: Date
-        # partition_type: MONTH
-        # window: 3
-        # lag: 1
-        # add_updated_at: True
+    dataset_id: fpl_raw
+    bucketname: fpl-staging
+    tables:
+      fixtures:
+        file_type: json
+
