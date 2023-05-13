@@ -129,7 +129,6 @@ class GcpConnector:
                 job_config.source_format = get_source_format(file_type) 
             except KeyError:
                 return print(f'No upload method for file type {file_type}')     
-            print(f'Uploading data from {gcslocation} to table {table_id}')
             upload_bucket_to_table(bq_client, gcslocation, table_ref, job_config)
         
         # don't allow config with a window on autodetect mode
@@ -157,7 +156,6 @@ class GcpConnector:
                         job_config.source_format = get_source_format(file_type) 
                     except KeyError:
                         return print(f'No upload method for file type {file_type}') 
-                    print(f'Uploading data from {gcslocation} to table {table_id}')
                     upload_bucket_to_table(bq_client, gcslocation, table_ref, job_config)
             except NotFound:
                 return print(f'Table {dataset_id}.{table_id} not found. Create table first to use window uploads.')
