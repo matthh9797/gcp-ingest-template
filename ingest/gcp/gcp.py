@@ -121,10 +121,7 @@ class GcpConnector:
         
         # upload to bq via bucket and overwrite whole table
         elif ((use_bucket == True) & (window is None or autodetect_mode)):
-            if autodetect_mode:
-                blobname = f'{uploaded_at.strftime("%Y%m%d")}:{table_id}'
-            else:
-                blobname = f'{uploaded_at.strftime("%Y%m%d")}:{table_id}'
+            blobname = f'{uploaded_at.strftime("%Y%m%d")}:{table_id}'
             print(f'Uploading dataframe to bucket: gs://{bucketname}')
             gcslocation = upload_dataframe_to_bucket(storage_client, dataframe, bucketname, blobname, file_type)
             print(f'Uploading gcsfile from {gcslocation} to bigquery table: {dataset_id}:{table_id}')
