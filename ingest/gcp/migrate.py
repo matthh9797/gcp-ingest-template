@@ -44,7 +44,7 @@ def upload_dataframe_to_bucket(
         blob.upload_from_string(dataframe.to_csv(index=False, date_format='%Y-%m-%d %H:%M:%S'), 'text/csv')
     elif file_type == 'json':
         # Must be new line deliminated json for bigquery: https://stackoverflow.com/questions/28976546/write-pandas-dataframe-to-newline-delimited-json
-        blob.upload_from_string(dataframe.to_json(orient='records', lines=True, date_format='%Y-%m-%d %H:%M:%S'), 'text/json')  
+        blob.upload_from_string(dataframe.to_json(orient='records', lines=True, date_format='iso'), 'text/json')  
     else:
         print(f'No upload method for file type {file_type}')
 
