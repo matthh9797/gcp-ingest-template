@@ -1,5 +1,9 @@
+import logging
 from google.cloud import bigquery
 from datetime import datetime
+import numpy as np
+
+from utils.io import json_to_dict
 
 # Lookup Functions
 def get_partition_type_from_str(partition_type: str) -> bigquery.TimePartitioningType:
@@ -54,7 +58,31 @@ def get_partition_range(dt: datetime, paritition_type):
         eoy = datetime(year, 12, 31)
         return soy, eoy
     else:
-        print('paritition_type must be YEAR, MONTH or DAY')
+        logging.info('paritition_type must be YEAR, MONTH or DAY')
+
+
+def get_source_format(file_type):
+    """
+    get bigquery source format from file type
+    @param file_type (e.g. csv or json)
+    """
+    lookup = {
+        'csv': 'CSV',
+        'json': bigquery.SourceFormat.NEWLINE_DELIMITED_JSON,
+    }
+    return lookup[file_type]
+
+
+def bigquery_dtypes_to_python(bq_dtype: str) -> str:
+    lookup = {
+        'STRING': str,
+        'TIMESTAMP': np.datetime64,
+        'INTEGER': int,
+        'FLOAT': float,
+        'BOOLEAN': bool,
+        'DATE': np.datetime64,
+    }
+    return lookup[bq_dtype]
 
 
 def get_source_format(file_type):
@@ -81,3 +109,15 @@ def table_schema_to_json(   bq_client: bigquery.Client,
     schema = table.schema
 
     return bq_client.schema_to_json(schema, file)
+
+
+def get_pd_columns_from_bq_schema(bq_schema_file):
+    """convert bigquery schema file to pandas colnames and dtypes"""
+    bq_schema = json_to_dict(bq_schema_file)
+    pd_colnames = []
+    pd_dtypes = []
+    for field in bq_schema:
+        pd_colnames.append(field['name'])
+        pd_dtypes.append(bigquery_dtypes_to_python(field['type']))
+    
+    return pd_colnames, pd_dtypes 
