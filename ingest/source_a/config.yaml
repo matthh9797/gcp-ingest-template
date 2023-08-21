@@ -1,0 +1,35 @@
+env: prod # controls run configuration based on target for ingestion 
+run_type: prod # controls loading of env variables, based on developer running locally or on a compute instance
+increment_type: full # how much of the table is being extracted
+tables: all
+
+source:
+  name: {{REPLACE}} 
+  description: {{REPLACE}}
+
+  # GCS
+  bucketname: {{REPLACE}}
+
+  tables:
+
+    - target_name: a
+      file_type: {{REPLACE}}
+
+      # GCS
+      blobdir: table_a/raw
+      schema_path: source_a/schemas/table_a.json
+
+
+gcp:
+
+  key_file: {{REPLACE}}
+  upload:
+    dataset_id: {{REPLACE}}
+    bucketname: {{REPLACE}}
+
+    tables:
+      table_a:
+        blobdir: table_a/processed
+        file_type: csv
+        schema_path: source_a/schemas/table_a.json
+ 

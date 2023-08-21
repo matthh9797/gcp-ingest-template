@@ -7,14 +7,14 @@ LOCATION={{REPLACE}} # e.g. EU
 # Create bucket
 gcloud storage buckets create gs://$BUCKET --location=$LOCATION --uniform-bucket-level-access
 
-# set GCS bucket object TTL to delete blobs after 30 days (https://stackoverflow.com/questions/68071455/how-to-set-google-cloud-storage-bucket-gcs-file-object-expiration-ttl-using)
+# set GCS bucket object TTL to delete blobs after 90 days (https://stackoverflow.com/questions/68071455/how-to-set-google-cloud-storage-bucket-gcs-file-object-expiration-ttl-using)
 echo '    
 {
     "rule":
     [
         {
             "action": {"type": "Delete"},
-            "condition": {"age": 30}
+            "condition": {"age": 90}
         }
     ]
 }
