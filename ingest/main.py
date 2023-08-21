@@ -7,7 +7,7 @@ from flask import request, escape
 import google.cloud.logging
 
 from pega import IngestPega
-from elevate import IngestElevate
+from elevate import IngestFtps
 from utils import dict_from_yaml, verify_public_ip
 
 
@@ -55,8 +55,8 @@ def ingest_pega():
         logging.exception("Failed to ingest ... try again later?")
 
 
-@app.route("/elevate", methods=['POST'])
-def ingest_elevate():
+@app.route("/ftps", methods=['POST'])
+def ingest_ftps():
 
     try:
 
@@ -73,9 +73,9 @@ def ingest_elevate():
             'env': env
         }
 
-        config = dict_from_yaml('elevate/config.yaml')
-        ingest_elevate = IngestElevate(config, extract_date, overrides)
-        ingest_elevate.run()
+        config = dict_from_yaml('ftps/config.yaml')
+        ingest_ftps = IngestFtps(config, extract_date, overrides)
+        ingest_ftps.run()
         ok = 'Ingested successfully'
         logging.info(ok)
         return ok
