@@ -1,0 +1,58 @@
+env: prod # controls run configuration based on target for ingestion (is pega production or development data)
+run_type: prod # controls loading of env variables, based on developer running locally or on a compute instance
+download_strategy: winscp
+increment_type: full # how much of the table is being extracted
+tables: all
+
+source:
+  name: pega 
+  description: Raw data downloaded from Pega via the BIX process 
+  # WinSCP
+  host: 
+    dev: dev_host # Name of environment variable
+    prod: prod_host
+  username:
+    dev: dev_user # Name of environment variable
+    prod: prod_user
+  private_key: 
+    dev: /secrets/dev/private-key.pem
+    prod: /secrets/prod/private-key.pem
+  remotedir: {{ REPLACE }}
+  localdir: data/raw
+  # GCS
+  bucketname: 
+    dev: {{ REPLACE }}
+    prod: {{ REPLACE }}
+  tables:
+
+    - target_name: table_a
+      # BIX
+      class_id: {{ REPLACE }}
+      file_type: xml
+      extract_rule:
+        full: {{ REPLACE }}
+        window: {{ REPLACE }}
+      # GCS
+      blobdir: table_a/raw
+      schema_path: pega/schemas/table_a.json
+
+gcp:
+
+  key_file: 
+    dev: {{ REPLACE }}
+    prod: {{ REPLACE }}
+  upload:
+    dataset_id: raw_pega
+    bucketname: 
+      dev: {{ REPLACE }}
+      prod: {{ REPLACE }}
+    merge:
+      window: True
+      full: False
+    tables:
+      table_a:
+        blobdir: table_a/processed
+        file_type: csv
+        merge_id_column: id
+        schema_path: pega/schemas/table_a.json
+

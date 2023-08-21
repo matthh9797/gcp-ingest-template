@@ -1,0 +1,44 @@
+env: prod # controls run configuration based on target for ingestion
+run_type: prod # controls loading of env variables, based on developer running locally or on a compute instance
+download_strategy: ftps
+tables: all
+
+source:
+  name: FTPS  
+  description: An example of downloading data from a daily dump to an FTP location
+  # FTPS
+  host: HOST
+  username: USERNAME
+  password: PASSWORD
+  remotedir: {{REPLACE}}
+  zipfilename: {{REPLACE}}
+  localdir: data/raw
+  # GCS
+  bucketname: 
+    dev: {{REPLACE}}
+    prod: {{REPLACE}}
+
+  tables:
+
+    - target_name: table_a
+      file_type: csv
+      blobdir: table_a/raw
+      schema_path: ftps/schemas/table_a.json
+
+
+gcp:
+
+  key_file: 
+    dev: {{REPLACE}}
+    prod: {{REPLACE}}
+  upload:
+    dataset_id: raw_ftps
+    bucketname: 
+      dev: {{REPLACE}}
+      prod: {{REPLACE}}
+
+    tables:
+      table_a:
+        blobdir: table_a/processed
+        file_type: csv
+        schema_path: elevate/schemas/table_a.json
